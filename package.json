@@ -1,0 +1,19 @@
+{
+  "name": "attendace-app",
+  "version": "0.0.1",
+  "description": "Simple attendance summary application.",
+  "main": "server.js",
+  "author": "Pavol Cesek",
+  "dependencies": {
+    "angular": "^1.5.9",
+    "angular-bootstrap-calendar": "^0.27.1",
+    "angular-ui-bootstrap": "^2.3.0",
+    "body-parser": "~1.5.2",
+    "bootstrap": "^3.3.7",
+    "express": "~4.7.2",
+    "method-override": "~2.1.2",
+    "moment": "^2.17.1",
+    "mongoose": "~3.6.2",
+    "morgan": "~1.2.2"
+  }
+}

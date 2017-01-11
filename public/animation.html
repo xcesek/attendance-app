@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <title>fafalkf</title>
+    <style>
+        .circle {
+          width: 20px;
+          height: 20px;
+          background-color: #fff;
+          border-radius: 50%;
+          border: 4px solid #0099ff;;
+        }
+
+        #myCircle {
+          transform: translateZ(0);
+          animation: slide 1s 5;
+          
+        }
+
+        @keyframes slide {
+          0% {
+            transform: scale(1, 1)  
+          }
+          90% {
+            transform: scale(1.5, 1.5)  
+          }
+          100% {
+            transform: scale(1, 1)  
+          }
+        }
+    </style>
+  </head>
+  <body>
+    <div id="myCircle" class="circle" />  
+  </body>
+
+  
+</html>

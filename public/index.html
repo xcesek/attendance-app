@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.css">
+	<link rel="stylesheet" href="style.css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+</head>
+
+<body>
+	<h1>Attendance</h1>
+	<div ng-app="myApp" ng-controller="attCtrl">
+
+		<div class="row">
+			<div class="col-md-1 col-md-offset-1">
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-8 col-lg-offset-1">
+				<div class="input-group">
+					<input ng-model="someName" ng-change="userWritting()"  type="text" class="form-control" placeholder="Ask something...">
+					<span class="input-group-btn">
+						<button ng-click="askForNoamiResponse()" class="btn btn-default" type="button">Send!</button>
+					</span>
+				</div>
+			</div>
+			<div class="col-lg-3">
+				<div id="myCircle" class="circle"> </div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-8 col-lg-offset-1">
+				<div class="input-group">
+					<span class="input-group-btn">
+        				<span class="btn btn-default" type="button">Noami: </span>
+					</span>
+					<div class="form-control" placeholder="Waiting...">{{noamiResponse}}</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<button ng-click="limitToDay()" class="btn btn-primary">Today</button>
+				<button ng-click="limitToWeek()" class="btn btn-primary">This Week</button>
+				<button ng-click="limitToMonth()" class="btn btn-primary">This Month</button>
+			</div>
+		</div>
+		<div class="col-md-10 col-md-offset-1">
+			<table class="table table-striped table-bordered table-hover table-condensed">
+				<tr>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Action</th>
+					<th>Occured At</th>
+					<th>Place</th>
+					<th>Source</th>
+				</tr>
+				<tr ng-repeat="x in entries">
+					<td>{{ x.ID }}</td>
+					<td>{{ x.name }}</td>
+					<td>{{ x.presence }}</td>
+					<td>{{ x.changed_at }}</td>
+					<td>{{ x.place_type }}</td>
+					<td>{{ x.source }}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		var app = angular.module('myApp', []);
+		app.controller('attCtrl', function ($scope, $http) {
+			$http.get("/api/findAll")
+				.then(function (response) {
+					$scope.entries = response.data;
+				});
+
+			$scope.limitToDay = function () {
+				$http.get("/api/find/type/day")
+					.then(function (response) {
+						$scope.entries = response.data;
+					});
+			};
+
+			$scope.limitToWeek = function () {
+				$http.get("/api/find/type/week")
+					.then(function (response) {
+						$scope.entries = response.data;
+					});
+			};
+
+			$scope.limitToMonth = function () {
+				$http.get("/api/find/type/month")
+					.then(function (response) {
+						$scope.entries = response.data;
+					});
+			};
+
+			$scope.userWritting = function () {
+				$http.get("/api/conversation/preprocess")
+					.then(function (response) {
+						$scope.noamiResponse = response.data;
+					});
+			};
+
+			$scope.askForNoamiResponse = function () {
+				$http.get("/api/conversation/process")
+					.then(function (response) {
+						$scope.noamiResponse = response.data;
+					});
+			};
+		});
+	</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/locale/bootstrap-table-zh-CN.min.js"></script>
+</body>
+
+</html>
